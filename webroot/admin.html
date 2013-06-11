@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>WebWorker Admin</title>
+<link rel="stylesheet" href="/style.css">
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/jquery-2.0.2.min.js"></script>
+<script src="/js/md5.js"></script>
+<script src="/js/admin.js"></script>
+</head>
+<body>
+	<aside>
+		<h2>Toplist</h2>
+		<p id="toplist">...</p>
+	</aside>
+
+	<h1>Admin</h1>
+	<p>Read the Admin Password from the node-console and set a password
+		for your students to crack:</p>
+	<p>
+		Admin-PW: <input id=admin-pw type="text"></input>
+	</p>
+	<p>
+		Crack-PW: <input id=crack-pw type="password"></input>
+	</p>
+
+	<div>
+		<a id="startCracking" href="#" class="button">Start Cracking</a> <a
+	</div>
+
+	<h2>Log</h2>
+	<p id="log">...</p>
+
+</body>
+</html>

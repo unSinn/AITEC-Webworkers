@@ -4,31 +4,46 @@
 <title>WebWorker example</title>
 <link rel="stylesheet" href="/style.css">
 <script src="/socket.io/socket.io.js"></script>
-<script src="/jquery-2.0.2.min.js"></script>
-<script src="/main.js"></script>
+<script src="/js/jquery-2.0.2.min.js"></script>
+<script src="/js/md5.js"></script>
+<script src="/js/main.js"></script>
 </head>
 <body>
 	<aside>
+		<h1>Status</h1>
+		Worker:
+		<p id="workerStatus">Not deployed</p>
+		Cracking:
+		<p id="crackingStatus">Worker not deployed</p>
 		<h1>Log</h1>
 		<p id="log">...</p>
 	</aside>
-	<p>Design your Worker and click on the Start Worker Button.</p>
+
+	<h1>WebWorker Sandbox</h1>
 	<p>
-		<textarea id="webworkerArea" rows="10" cols="50">
-		self.onmessage = function(e){
-		   postMessage({ type: 'log', text: 'Starting to work.'});
-		   
-		   //do some work
-		   i = 123;
-		   postMessage({ type: 'log', text: 'Work done.'});
-		   postMessage({ type: 'found', value: 'ThePassw0rd'+i});
-		}
+		Cracker name: <input id="cracker-name" type="text"></input> <input id="md5" type="text" value="827ccb0eea8a706c4c34a16891f84e7b"></input>
+	</p>
+	<p>Design your Worker and click on the Deploy Worker Button.</p>
+	<p>
+		<textarea id=webWorkerArea>
+self.onmessage = function(e){
+	// Write something to the Log
+   postMessage({ type: 'log', text: 'Starting to work  with hash:' + e.data.pwmd5});
+   
+  
+   i = 12345;
+   
+   
+   // When you have found a password, post the response.
+   postMessage({ type: 'found', password: i});
+}
 		</textarea>
 	</p>
 	<div>
-		<a id="deployWorkerButton" href="#" class="button">Deploy Worker</a> <a
-			id="startWorkerButton" href="#" class="button">Start Worker</a>
+		<a id="deployWorkerButton" class="button">Deploy Worker</a> <a
+			id="startWorkerButton" class="button">Start Worker manually</a>
 	</div>
+
 
 </body>
 </html>
