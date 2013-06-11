@@ -1,0 +1,33 @@
+ $(document).ready(function(){
+	 var socket = io.connect('http://localhost:8081');
+		  socket.on('log', function (data) {
+		    console.log(data);
+		    socket.emit('my other event', { my: 'data' });
+		  });
+		  
+	$("#startWorkerButton").on("click", function() {
+	  
+			window.URL = window.URL || window.webkitURL;
+
+			// "Server response", used in all examples
+			var response = $('#webworkerArea').val();
+			alert(response);
+
+			var blob;
+			try {
+			    blob = new Blob([response]);
+			} catch (e) { // Backwards-compatibility
+			    window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
+			    blob = new BlobBuilder();
+			    blob.append(response);
+			    blob = blob.getBlob();
+			}
+			var worker = new Worker(URL.createObjectURL(blob));
+
+			// Test, used in all examples:
+			worker.onmessage = function(e) {
+			    alert('Response: ' + e.data);
+			};
+			worker.postMessage('Test');
+	}
+});

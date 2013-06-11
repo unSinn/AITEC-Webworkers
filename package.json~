@@ -1,0 +1,14 @@
+{ 
+
+  "name": "AITEC-Webworker-Server",
+  "url" : "https://github.com/unSinn/AITEC-Webworkers",
+  "description": "Web and Websocket server for a Webworker exercise",
+  "author": "A unSinned individual",
+  "dependencies": {
+    "express": "3.2.6",
+    "socket.io": "0.9.16"
+
+  },
+  "engine": "node 0.8.11"
+}
+
