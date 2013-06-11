@@ -10,20 +10,46 @@
 </head>
 <body>
 	<aside>
-		<h1>Status</h1>
-		Worker:
-		<p id="workerStatus">Not deployed</p>
-		Cracking:
-		<p id="crackingStatus">Worker not deployed</p>
-		<h1>Log</h1>
-		<p id="log">...</p>
+		<h2>Toplist</h2>
+		<table id="toplistTable">
+			<thead style="font-weight: bold;">
+				<tr>
+					<td>Client</td>
+					<td>Status</td>
+				</tr>
+			</thead>
+			<tbody>
+
+			</tbody>
+		</table>
 	</aside>
 
 	<h1>WebWorker Sandbox</h1>
-	<p>
-		Cracker name: <input id="cracker-name" type="text"></input> <input id="md5" type="text" value="827ccb0eea8a706c4c34a16891f84e7b"></input>
-	</p>
-	<p>Design your Worker and click on the Deploy Worker Button.</p>
+	<div>
+		<h2>Status</h2>
+		<table>
+			<tr>
+				<td>Cracker name:</td>
+				<td><input id="cracker-name" type="text"
+					value="Unnamed Cracker"></input></td>
+			</tr>
+			<tr>
+				<td>MD5-Hash</td>
+				<td><input id="md5" type="text"
+					value="827ccb0eea8a706c4c34a16891f84e7b"></input></td>
+			</tr>
+			<tr>
+				<td>Worker</td>
+				<td><div id="workerStatus">Not deployed</div></td>
+			</tr>
+
+		</table>
+	</div>
+
+	<div>
+		<a id="deployWorkerButton" class="button">Deploy Worker</a> <a
+			id="startWorkerButton" class="button">Start Worker manually</a>
+	</div>
 	<p>
 		<textarea id=webWorkerArea>
 self.onmessage = function(e){
@@ -39,11 +65,10 @@ self.onmessage = function(e){
 }
 		</textarea>
 	</p>
+
 	<div>
-		<a id="deployWorkerButton" class="button">Deploy Worker</a> <a
-			id="startWorkerButton" class="button">Start Worker manually</a>
+		<h3>Log</h3>
+		<p id="log">...</p>
 	</div>
-
-
 </body>
 </html>

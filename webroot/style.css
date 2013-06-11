@@ -1,6 +1,5 @@
 body {
-	padding-top: 60px;
-	padding: 40px;
+	padding: 1%;
 	margin: 0 auto;
 	background: #888899;
 	font: 10pt/1.5em Helvetica, "Helvetica neue", Arial, sans-serif;
@@ -15,21 +14,31 @@ h1 {
 	text-align: center;
 	text-transform: uppercase;
 	color: #0f0f0f;
-	padding-top: 30px;
+	padding-top: 1%;
 	text-shadow: 1px 1px 2px #000;
-	padding-top: 30px;
+}
+
+h2 {
+	font: 20pt Helvetica, "Helvetica neue", Arial, sans-serif;
+	text-align: center;
+	text-transform: uppercase;
+	color: #0f0f0f;
+	padding-top: 1%;
+	text-shadow: 1px 1px 2px #000;
 }
 
 aside {
 	float: right;
 	width: 25%;
-	min-height: 480px;
-	margin: 5px;
+	margin-top: 15%;
+	background-color: #777788;
+	padding: 1%;
+	
 }
 
 section {
 	float: right;
-	width: 80%;
+	width: 75%;
 	padding-left: 20px;
 	margin: 0 0 20px 0px;
 	border-left: 2px dotted #b2a497;
