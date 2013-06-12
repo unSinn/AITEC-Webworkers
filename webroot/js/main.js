@@ -14,7 +14,11 @@ socket.on('userlist', function(userlist) {
     $('#toplistTable tbody').empty();
     for ( var key in userlist) {
 	user = userlist[key];
-	$('#toplistTable tbody').append('<tr><td>' + user.name + '</td><td>' + user.status + '</td></tr>');
+	time = '-';
+	if (user.endtime) {
+	    time = user.endtime - user.starttime ;
+	}
+	$('#toplistTable tbody').append('<tr><td>' + user.name + '</td><td>' + user.status + '</td> <td>' + time + '</td></tr>');
     }
 });
 
@@ -38,6 +42,9 @@ $(document).ready(function() {
 	}
 
 	try {
+	    if (worker) {
+		worker.terminate();
+	    }
 	    worker = new Worker(URL.createObjectURL(blob));
 
 	    // Test, used in all examples:
@@ -61,12 +68,18 @@ $(document).ready(function() {
 	    workerStatus("Deployed");
 	    log("Worker deployed.");
 	} catch (err) {
+	    log(err.message);
 	    workerStatus("Error: " + err.message);
 	}
     });
     $("#startWorkerButton").on("click", function() {
 	var pwmd5 = $('#md5').val();
-	startWorker(pwmd5)
+	try {
+	    startWorker(pwmd5)
+	} catch (err) {
+	    log(err.message);
+	    workerStatus("Error: " + err.message);
+	}
     });
 
 });
@@ -75,7 +88,9 @@ function startWorker(pwmd5) {
     if (worker) {
 	sendClientStartedCracking();
 	log("Sending start-cracking to worker");
+	log(document.location);
 	worker.postMessage({
+	    url : JSON.stringify(document.location),
 	    cmd : 'start-cracking',
 	    pwmd5 : pwmd5
 	});

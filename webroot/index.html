@@ -16,6 +16,7 @@
 				<tr>
 					<td>Client</td>
 					<td>Status</td>
+					<td>Time (ms)</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -53,15 +54,30 @@
 	<p>
 		<textarea id=webWorkerArea>
 self.onmessage = function(e){
+
+	var url = JSON.parse(e.data.url);
+	 importScripts(url.href + '/js/md5.js');
+	
+	
 	// Write something to the Log
    postMessage({ type: 'log', text: 'Starting to work  with hash:' + e.data.pwmd5});
    
-  
-   i = 12345;
+    
+    //var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var possible = "abc0123456789";
+
+var guess ="";
+while(md5(guess) != e.data.pwmd5){
+guess = "";
+    for( var i=0; i < 5; i++ ){
+    	guess += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+        
+}
    
    
    // When you have found a password, post the response.
-   postMessage({ type: 'found', password: i});
+   postMessage({ type: 'found', password: guess});
 }
 		</textarea>
 	</p>
