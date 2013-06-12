@@ -1,5 +1,6 @@
 var socket = io.connect('http://localhost:8080');
 var worker;
+var lastSortList;
 
 socket.on('log', function(data) {
     log("Node:" + data.text);
@@ -12,19 +13,26 @@ socket.on('clients-start-cracking', function(data) {
 
 socket.on('userlist', function(userlist) {
     $('#toplistTable tbody').empty();
+
     for ( var key in userlist) {
 	user = userlist[key];
 	time = '-';
 	if (user.endtime) {
-	    time = user.endtime - user.starttime ;
+	    time = user.endtime - user.starttime;
 	}
 	$('#toplistTable tbody').append('<tr><td>' + user.name + '</td><td>' + user.status + '</td> <td>' + time + '</td></tr>');
     }
+    $("#toplistTable").stupidtable();
+    $("#th-time").click();
 });
 
 $(document).ready(function() {
-    $("#deployWorkerButton").on("click", function() {
 
+    $("#toplistTable").on('sortEnd', function(e) {
+	lastSortList = e.target.config.sortList;
+    });
+
+    $("#deployWorkerButton").on("click", function() {
 	window.URL = window.URL || window.webkitURL;
 
 	// "Server response", used in all

@@ -2,21 +2,22 @@
 <html>
 <head>
 <title>WebWorker example</title>
-<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/css/style.css">
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/jquery-2.0.2.min.js"></script>
+<script src="/js/stupidtable.min.js"></script>
 <script src="/js/md5.js"></script>
 <script src="/js/main.js"></script>
 </head>
 <body>
 	<aside>
 		<h2>Toplist</h2>
-		<table id="toplistTable">
-			<thead style="font-weight: bold;">
+		<table id="toplistTable" class="tablesorter">
+			<thead>
 				<tr>
-					<td>Client</td>
-					<td>Status</td>
-					<td>Time (ms)</td>
+					<th data-sort="string">Client</th>
+					<th data-sort="string">Status</th>
+					<th data-sort="int" id="th-time">Time (ms)</th>
 				</tr>
 			</thead>
 			<tbody>
