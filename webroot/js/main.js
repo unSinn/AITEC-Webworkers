@@ -1,9 +1,11 @@
 var socket = io.connect('http://localhost:8080');
 var worker;
 var lastSortList;
+var webWorkerArea;
+var crackerName;
 
 socket.on('log', function(data) {
-    log("Node:" + data.text);
+    console.log("Node:" + data.text);
 });
 
 socket.on('clients-start-cracking', function(data) {
@@ -28,8 +30,19 @@ socket.on('userlist', function(userlist) {
 
 $(document).ready(function() {
 
+    loadStoredContent();
+
     $("#toplistTable").on('sortEnd', function(e) {
 	lastSortList = e.target.config.sortList;
+    });
+
+    var editor = CodeMirror.fromTextArea(document.getElementById("webWorkerArea"), {
+	lineNumbers : true,
+	matchBrackets : true,
+	continueComments : "Enter",
+	extraKeys : {
+	    "Ctrl-Q" : "toggleComment"
+	}
     });
 
     $("#deployWorkerButton").on("click", function() {
@@ -58,7 +71,7 @@ $(document).ready(function() {
 	    // Test, used in all examples:
 	    worker.onmessage = function(e) {
 		if (e.data.type == 'log') {
-		    log('Webworker: ' + e.data.text);
+		    console.log('Webworker: ' + e.data.text);
 		}
 		if (e.data.type == 'found') {
 		    log('Webworker: found result = ' + e.data.password);
@@ -74,9 +87,9 @@ $(document).ready(function() {
 		workerStatus("Error: " + e.message);
 	    }
 	    workerStatus("Deployed");
-	    log("Worker deployed.");
+	    console.log("Worker deployed.");
 	} catch (err) {
-	    log(err.message);
+		console.log(err.message);
 	    workerStatus("Error: " + err.message);
 	}
     });
@@ -85,18 +98,33 @@ $(document).ready(function() {
 	try {
 	    startWorker(pwmd5)
 	} catch (err) {
-	    log(err.message);
-	    workerStatus("Error: " + err.message);
+		workerStatus("Error: " + err.message);
+		console.log(err.message);
 	}
     });
 
 });
 
+$(window).bind('beforeunload', function() {
+    localStorage.setItem('webWorkerArea', JSON.stringify($('#webWorkerArea').val()));
+    localStorage.setItem('cracker-name', JSON.stringify($('#cracker-name').val()));
+});
+
+function loadStoredContent() {
+    webWorkerArea = JSON.parse(localStorage.getItem('webWorkerArea'));
+    if (webWorkerArea) {
+	$('#webWorkerArea').val(webWorkerArea);
+    }
+    crackerName = JSON.parse(localStorage.getItem('cracker-name'));
+    if (crackerName) {
+	$('#cracker-name').val(crackerName);
+    }
+}
+
 function startWorker(pwmd5) {
     if (worker) {
 	sendClientStartedCracking();
-	log("Sending start-cracking to worker");
-	log(document.location);
+	console.log("Sending start-cracking to worker");
 	worker.postMessage({
 	    url : JSON.stringify(document.location),
 	    cmd : 'start-cracking',
@@ -104,7 +132,7 @@ function startWorker(pwmd5) {
 	});
 	workerStatus("Cracking...");
     } else {
-	log("Error: could not start cracking. Worker not deployed");
+	console.log("Error: could not start cracking. Worker not deployed");
     }
 
 }
@@ -113,10 +141,6 @@ function sendClientStartedCracking() {
     socket.emit('client-started-cracking', {
 	name : $('#cracker-name').val()
     });
-}
-
-function log(message) {
-    $('#log').append('</br>' + message);
 }
 
 function workerStatus(message) {

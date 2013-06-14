@@ -3,9 +3,12 @@
 <head>
 <title>WebWorker example</title>
 <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/codemirror.css">
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/jquery-2.0.2.min.js"></script>
 <script src="/js/stupidtable.min.js"></script>
+<script src="/js/codemirror.js"></script>
+<script src="/js/javascript.js"></script>
 <script src="/js/md5.js"></script>
 <script src="/js/main.js"></script>
 </head>
@@ -28,7 +31,6 @@
 
 	<h1>WebWorker Sandbox</h1>
 	<div>
-		<h2>Status</h2>
 		<table>
 			<tr>
 				<td>Cracker name:</td>
@@ -53,39 +55,37 @@
 			id="startWorkerButton" class="button">Start Worker manually</a>
 	</div>
 	<p>
-		<textarea id=webWorkerArea>
-self.onmessage = function(e){
-
+		<textarea id=webWorkerArea>self.onmessage = function(e) {
+	// load additional libs
 	var url = JSON.parse(e.data.url);
-	 importScripts(url.href + '/js/md5.js');
-	
-	
-	// Write something to the Log
-   postMessage({ type: 'log', text: 'Starting to work  with hash:' + e.data.pwmd5});
-   
-    
-    //var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    var possible = "abc0123456789";
+	importScripts(url.href + '/js/md5.js');
 
-var guess ="";
-while(md5(guess) != e.data.pwmd5){
-guess = "";
-    for( var i=0; i < 5; i++ ){
-    	guess += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-        
-}
-   
-   
-   // When you have found a password, post the response.
-   postMessage({ type: 'found', password: guess});
-}
-		</textarea>
+	// Write something to the Log
+	postMessage({
+		type : 'log',
+		text : 'Starting to work  with hash:' + e.data.pwmd5
+	});
+
+	// var possible =
+	// "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	var possible = "abc0123456789";
+
+	var guess = "";
+	while (md5(guess) != e.data.pwmd5) {
+		guess = "";
+		for ( var i = 0; i < 5; i++) {
+			guess += possible.charAt(Math.floor(Math.random() * possible.length));
+		}
+
+	}
+
+	// When you have found a password, post the response.
+	postMessage({
+		type : 'found',
+		password : guess
+	});
+}	</textarea>
 	</p>
 
-	<div>
-		<h3>Log</h3>
-		<p id="log">...</p>
-	</div>
 </body>
 </html>
