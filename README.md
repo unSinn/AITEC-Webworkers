@@ -17,4 +17,4 @@ Install node dependencies
 Start the server
 
     node server.js
-Browse to <http://localhost:8080/
+Browse to <http://localhost:8080/>
